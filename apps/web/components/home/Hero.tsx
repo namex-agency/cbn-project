@@ -48,7 +48,10 @@ export default function Hero() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const activeSlide = useMemo(() => heroSlides[currentSlide], [currentSlide]);
+  const activeSlide = useMemo(
+  () => heroSlides.at(currentSlide) ?? heroSlides.at(0)!,
+  [currentSlide]
+);
 
   useEffect(() => {
     const interval = window.setInterval(() => {

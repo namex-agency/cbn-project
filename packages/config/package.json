@@ -1,0 +1,11 @@
+{
+  "name": "@cbn/config",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./typescript/base": "./typescript/base.json",
+    "./typescript/next": "./typescript/next.json",
+    "./eslint/next": "./eslint/next.mjs"
+  }
+}

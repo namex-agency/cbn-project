@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "CBN Next.js Config",
+
+  "extends": "./base.json",
+
+  "compilerOptions": {
+    "jsx": "preserve",
+
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
+
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
+    "allowJs": false,
+
+    "noEmit": true
+  },
+
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules"
+  ]
+}

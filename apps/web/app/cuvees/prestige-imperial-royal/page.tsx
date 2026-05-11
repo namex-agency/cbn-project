@@ -38,7 +38,7 @@ export default function PrestigeImperialRoyalPage() {
   const ageMenuRef = useRef<HTMLDivElement | null>(null);
 
   const activeAgeLabel = useMemo(
-    () => AGE_OPTIONS.find((option) => option.active)?.label ?? AGE_OPTIONS[0].label,
+    () => AGE_OPTIONS.find((option) => option.active)?.label ?? AGE_OPTIONS.at(0)?.label ?? "Signature",
     []
   );
 

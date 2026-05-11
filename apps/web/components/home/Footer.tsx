@@ -123,7 +123,13 @@ const footerLinkClass = `text-[14px] font-medium uppercase tracking-[-0.01em] te
 const footerMutedLinkClass = `text-[13px] font-normal uppercase tracking-[0.01em] text-[#8d8b87] ${hoverGold}`;
 
 export default function Footer() {
-  const currentLanguage = languages[0];
+  const currentLanguage = languages.at(0) ?? {
+  label: "FRANÇAIS",
+  short: "FR",
+  flagSrc: "/images/flags/fr.png",
+  flagAlt: "Drapeau français",
+  href: "#lang-fr",
+};
 
   return (
     <footer className="bg-black text-white" aria-label="Footer Champagne Bernard Njandja">
