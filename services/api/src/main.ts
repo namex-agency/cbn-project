@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import { env } from "./core/env.js";
 import { prisma } from "./core/prisma.js";
+import { productsRoutes } from "./modules/products/products.routes.js";
 
 const app = Fastify({
   logger: true,
@@ -14,6 +15,10 @@ await app.register(cors, {
 });
 
 await app.register(helmet);
+
+await app.register(productsRoutes, {
+  prefix: "/products",
+});
 
 app.get("/", async () => {
   return {
