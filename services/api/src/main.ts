@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
-import { env } from "./core/env";
+import { env } from "./core/env.js";
 
 const app = Fastify({
   logger: true,
@@ -14,6 +14,14 @@ await app.register(cors, {
 
 await app.register(helmet);
 
+app.get("/", async () => {
+  return {
+    status: "ok",
+    service: "cbn-api",
+    message: "Champagne Bernard Njandja API is running",
+  };
+});
+
 app.get("/health", async () => {
   return {
     status: "ok",
@@ -23,10 +31,10 @@ app.get("/health", async () => {
 
 const start = async () => {
   try {
-   await app.listen({
-  port: env.API_PORT,
-  host: env.API_HOST,
-});
+    await app.listen({
+      port: env.API_PORT,
+      host: env.API_HOST,
+    });
 
     app.log.info(`CBN API running on ${env.API_HOST}:${env.API_PORT}`);
   } catch (error) {
