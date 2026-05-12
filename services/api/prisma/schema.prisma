@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ProductCollection {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cuvees    ProductCuvee[]
+  products  Product[]
+
+  @@map("product_collections")
+}
+
+model ProductCuvee {
+  id              String   @id @default(uuid()) @db.Uuid
+  collectionId    String   @db.Uuid
+  slug            String   @unique
+  name            String
+  vintageAgeYears Int
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  collection ProductCollection @relation(fields: [collectionId], references: [id], onDelete: Restrict)
+  products   Product[]
+
+  @@index([collectionId])
+  @@map("product_cuvees")
+}
+
+model Product {
+  id               String   @id @default(uuid()) @db.Uuid
+  collectionId     String   @db.Uuid
+  cuveeId          String   @db.Uuid
+  slug             String   @unique
+  sku              String   @unique
+  name             String
+  displayName      String
+  shortDescription String
+  description      String
+  heroImageUrl     String
+  galleryImages    String[]
+  stockQuantity    Int      @default(0)
+  isAvailable      Boolean  @default(true)
+  isFeatured       Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  collection ProductCollection @relation(fields: [collectionId], references: [id], onDelete: Restrict)
+  cuvee      ProductCuvee      @relation(fields: [cuveeId], references: [id], onDelete: Restrict)
+  prices     ProductPrice[]
+
+  @@index([collectionId])
+  @@index([cuveeId])
+  @@index([isAvailable])
+  @@index([isFeatured])
+  @@map("products")
+}
+
+model ProductPrice {
+  id              String                 @id @default(uuid()) @db.Uuid
+  productId       String                 @db.Uuid
+  region          ProductRegion
+  customerSegment ProductCustomerSegment
+  amount          Decimal                @db.Decimal(12, 2)
+  currency        ProductCurrency
+  isActive        Boolean                @default(true)
+  validFrom       DateTime
+  validUntil      DateTime?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([region])
+  @@index([customerSegment])
+  @@index([currency])
+  @@unique([productId, region, customerSegment, currency, validFrom])
+  @@map("product_prices")
+}
+
+enum ProductRegion {
+  europe
+  america
+  africa
+}
+
+enum ProductCustomerSegment {
+  retail
+  professional
+}
+
+enum ProductCurrency {
+  EUR
+  USD
+  XAF
+}
